@@ -1,0 +1,13 @@
+html,body{
+    margin: 0;padding: 0;
+}
+.el-header{
+    height: 40px !important;
+    background-color: #2b303b;
+    /* background-color: #ffffff; */
+    line-height: 40px;
+    color: #ffffff;
+}
+.el-header .r-header{
+    text-align: right;
+}

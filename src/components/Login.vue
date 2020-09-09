@@ -55,10 +55,17 @@ export default {
             data: this.form,
           })
             .then((res) => {
-              if(res.data.code == 0){
-                this.$router.push('/')
-              }else{
-                this.$message(res.data.msg)
+              if (res.data.code == 0) {
+                this.$notify({
+                  title: "" + res.data.msg,
+                  type: "success",
+                });
+                this.$uc.save(res.data.result);
+                this.$router.push({
+                  path: "/",
+                });
+              } else {
+                this.$message(res.data.msg);
               }
             })
             .catch((err) => {
