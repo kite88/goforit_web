@@ -11,3 +11,22 @@ html,body{
 .el-header .r-header{
     text-align: right;
 }
+.el-header .nav{
+    cursor: pointer;
+}
+.el-header .r-header .logout{
+    cursor: pointer;
+}
+.el-header .r-header .logout:hover{
+    color: #ff0000;
+}
+.drawer-main{
+    background-color: #f5f8fa;
+}
+.drawer-main .drawer-main-box{
+    padding: 20px;
+}
+.drawer-main .drawer-main-box-close{
+    float: right;
+    cursor: pointer;
+}
