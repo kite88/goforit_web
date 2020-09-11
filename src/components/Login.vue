@@ -34,8 +34,8 @@ export default {
   data() {
     return {
       form: {
-        username: "hejunsheng",
-        password: "123123",
+        username: "",
+        password: "",
       },
       rules: {
         username: [

@@ -30,3 +30,6 @@ html,body{
     float: right;
     cursor: pointer;
 }
+.main-box{
+    background-color: #ffffff;
+}

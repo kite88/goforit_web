@@ -3,7 +3,7 @@
     <el-header>
       <el-row>
         <el-col :span="20">
-          <span class="nav" v-for="(item,key) in navList" :key="key">{{ item.name }}</span>
+          <span @click="nav(item.path)" class="nav" v-for="(item,key) in navList" :key="key">{{ item.name }}</span>
         </el-col>
         <el-col :span="4" class="r-header">
           <span>{{ username }}</span>
@@ -11,7 +11,9 @@
         </el-col>
       </el-row>
     </el-header>
-    <el-main>Main</el-main>
+    <el-main class="main-box">
+        <router-view></router-view>
+    </el-main>
 
     <el-drawer
       custom-class="drawer-main"
@@ -35,7 +37,7 @@ export default {
       username: this.$uc.username,
       drawer: false,
       navList: [
-        {name: '书籍1', path: ''},
+        {name: '备忘录', path: '/memo'},
       ]
     };
   },
@@ -59,6 +61,9 @@ export default {
     next(vm => vm.setDrawer(from)); // err 与 12134 是随便传的值， 可忽略
   },
   methods: {
+    nav: function(path){
+      this.$router.push({ path: path })
+    },
     setDrawer: function(from){
         if(from.name == 'Login') this.drawer = true
     },
