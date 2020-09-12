@@ -33,3 +33,7 @@ html,body{
 .main-box{
     background-color: #ffffff;
 }
+.sub-btn{
+    cursor: pointer;
+    color: #0000ff;
+}
