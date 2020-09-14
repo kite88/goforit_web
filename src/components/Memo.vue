@@ -58,6 +58,7 @@
                     <el-popconfirm title="确定删除吗？" icon="el-icon-info" @onConfirm="deleteClassifyFunc(scope.row)">
                         <el-button size="mini" class="el-icon-delete" slot="reference"></el-button>
                     </el-popconfirm>
+                    <el-button @click="addClassifyFunc(scope.row)" size="mini" class="el-icon-plus" v-if="scope.row.pid == 0"></el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -212,7 +213,10 @@ export default {
       })
         .then((res) => {
           if (res.data.code == 0) {
-            this.classifyList = res.data.result
+            this.classifyList = res.data.result.map(v => {
+              v.name = (v.pid > 0) ? "|— " + v.name : v.name
+              return v
+            })
           }
         })
         .catch((err) => {
@@ -225,13 +229,14 @@ export default {
 
     },
 
-    addClassifyFunc: function(){
+    addClassifyFunc: function(row){
+        var pid = (row.id == undefined) ? 0 : row.id;
         this.$prompt('请输入名称', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           inputValue: "",
         }).then(({ value }) => {
-           this.submitClassify(value, "", "post")
+           this.submitClassify(value, "", pid, "post")
         }).catch(() => { console.log("取消添加") });
     },
 
@@ -241,18 +246,19 @@ export default {
           cancelButtonText: '取消',
           inputValue: "" + row.name,
         }).then(({ value }) => {
-           this.submitClassify(value, row.id, "put")
+           this.submitClassify(value, row.id, "", "put")
         }).catch(() => { console.log("取消编辑") });
     },
 
-    submitClassify(value,id,formMethod){
+    submitClassify(value,id,pid,formMethod){
         this.$axios({
             url: this.$apiDomain + "/v1/memo/classify",
             method: "" + formMethod,
             headers: { token: this.$uc.token },
             data: {
                 name: value,
-                id: id
+                id: id,
+                pid: pid,
             },
           })
             .then((res) => {
