@@ -49,12 +49,14 @@ export default {
     onSubmit () {
       this.$refs['form'].validate((valid) => {
         if (valid) {
+          let loading = this.$loading()
           this.$axios({
             url: this.$apiDomain + '/v1/user/login',
             method: 'post',
             data: this.form
           })
             .then((res) => {
+              loading.close()
               if (res.data.code === 0) {
                 this.$notify({
                   title: '' + res.data.msg,
@@ -69,7 +71,9 @@ export default {
               }
             })
             .catch((err) => {
+              loading.close()
               console.log(err)
+              this.$message('网络错误')
             })
         } else {
           console.log('error submit!!')
