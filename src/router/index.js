@@ -6,11 +6,17 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    { path: '/login', name: 'Login', component: Pages.Login },
     {
-      path: '/', name: 'Main', component: Pages.Main,
+      path: '/login', name: 'Login', component: Pages.Login
+    },
+    {
+      path: '/',
+      name: 'Main',
+      component: Pages.Main,
       children: [
-        { path: '/memo', name: 'Memo', component: Pages.Memo, },
+        {
+          path: '/memo', name: 'Memo', component: Pages.Memo
+        }
       ]
     }
   ]

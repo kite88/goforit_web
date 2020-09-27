@@ -20,63 +20,63 @@
   </el-form>
 </template>
 <style>
-.form {
-  padding: 50px;
-  width: 350px;
-  margin: 150px auto;
-  border-radius: 10px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-}
+  .form {
+    padding: 50px;
+    width: 350px;
+    margin: 150px auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  }
 </style>
 <script>
-import AppVue from "../App.vue";
+// eslint-disable-next-line no-unused-vars
+import AppVue from '../App.vue'
+
 export default {
-  data() {
+  data () {
     return {
       form: {
-        username: "",
-        password: "",
+        username: '',
+        password: ''
       },
       rules: {
-        username: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
-        ],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-      },
-    };
+        username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+        password: [{required: true, message: '请输入密码', trigger: 'blur'}]
+      }
+    }
   },
   methods: {
-    onSubmit() {
-      this.$refs["form"].validate((valid) => {
+    onSubmit () {
+      this.$refs['form'].validate((valid) => {
         if (valid) {
           this.$axios({
-            url: this.$apiDomain + "/v1/user/login",
-            method: "post",
-            data: this.form,
+            url: this.$apiDomain + '/v1/user/login',
+            method: 'post',
+            data: this.form
           })
             .then((res) => {
-              if (res.data.code == 0) {
+              if (res.data.code === 0) {
                 this.$notify({
-                  title: "" + res.data.msg,
-                  type: "success",
-                });
-                this.$uc.save(res.data.result);
+                  title: '' + res.data.msg,
+                  type: 'success'
+                })
+                this.$uc.save(res.data.result)
                 this.$router.push({
-                  path: "/",
-                });
+                  path: '/'
+                })
               } else {
-                this.$message(res.data.msg);
+                this.$message(res.data.msg)
               }
             })
             .catch((err) => {
-              console.log(err);
-            });
+              console.log(err)
+            })
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>

@@ -12,7 +12,7 @@
       </el-row>
     </el-header>
     <el-main class="main-box">
-        <router-view></router-view>
+      <router-view></router-view>
     </el-main>
 
     <el-drawer
@@ -32,65 +32,67 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       username: this.$uc.username,
       drawer: false,
       navList: [
-        {name: '备忘录', path: '/memo'},
+        {name: '备忘录', path: '/memo'}
       ]
-    };
-  },
-  beforeCreate() {
-    if(!this.$uc.token){
-      this.$message('请先登录')
-      this.$router.push({ path: "/login" })
     }
-    //拦截响应，要求用户重新登录
+  },
+  beforeCreate () {
+    if (!this.$uc.token) {
+      this.$message('请先登录')
+      this.$router.push({path: '/login'})
+    }
+    // 拦截响应，要求用户重新登录
+    // eslint-disable-next-line no-unused-expressions
     this.$axios.interceptors.response.use((res) => {
-      if (res.data.code == -10) {
-        this.$router.push({ path: "/login" })
+      if (res.data.code === -10) {
+        this.$router.push({path: '/login'})
       }
-      return res;
+      return res
     }),
-      (err) => err;
+    (err) => err
   },
   beforeRouteEnter (to, from, next) {
-    //console.log(to, from) // 可以拿到 from， 知道上一个路由是什么，从而进行判断
-    //在next中写处理函数
-    next(vm => vm.setDrawer(from)); // err 与 12134 是随便传的值， 可忽略
+    // console.log(to, from) // 可以拿到 from， 知道上一个路由是什么，从而进行判断
+    // 在next中写处理函数
+    next(vm => vm.setDrawer(from))
   },
   methods: {
-    nav: function(path){
-      this.$router.push({ path: path })
+    nav: function (path) {
+      this.$router.push({path: path})
     },
-    setDrawer: function(from){
-        if(from.name == 'Login') this.drawer = true
+    setDrawer: function (from) {
+      // eslint-disable-next-line eqeqeq
+      if (from.name === 'Login') this.drawer = true
     },
-    drawerMainClose: function(){
+    drawerMainClose: function () {
       this.drawer = false
     },
     logout: function () {
       this.$axios({
-        url: this.$apiDomain + "/v1/user/logout",
-        method: "get",
+        url: this.$apiDomain + '/v1/user/logout',
+        method: 'get',
         headers: {
-          token: this.$uc.token,
-        },
+          token: this.$uc.token
+        }
       })
         .then((res) => {
-          if (res.data.code == 0) {
-            this.$uc.destroy();
-            this.$message(res.data.msg);
-            this.$router.push("/login");
+          if (res.data.code === 0) {
+            this.$uc.destroy()
+            this.$message(res.data.msg)
+            this.$router.push('/login')
           } else {
-            this.$message(res.data.msg);
+            this.$message(res.data.msg)
           }
         })
         .catch((err) => {
-          console.log(err);
-        });
-    },
-  },
-};
+          console.log(err)
+        })
+    }
+  }
+}
 </script>

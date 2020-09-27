@@ -10,9 +10,9 @@
       <el-table-column prop="memo_classify.name" label="类别" width="180"></el-table-column>
       <el-table-column prop="update_time" label="最近修改时间" width="200"></el-table-column>
       <el-table-column prop="id" label="操作" width="200">
-          <template slot-scope="scope">
-            <el-button @click="editFunc(scope.row)" size="mini" class="el-icon-edit"></el-button>
-            <el-button @click="deleteFunc(scope.row)" size="mini" class="el-icon-delete"></el-button>
+        <template slot-scope="scope">
+          <el-button @click="editFunc(scope.row)" size="mini" class="el-icon-edit"></el-button>
+          <el-button @click="deleteFunc(scope.row)" size="mini" class="el-icon-delete"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -32,7 +32,8 @@
           <el-input v-model="form.title" size="small" placeholder="请输入标题" clearable></el-input>
         </el-form-item>
         <el-form-item label="内容" prop="content">
-          <el-input type="textarea" v-model="form.content" :autosize="{ minRows: 4, maxRows: 10 }" placeholder="请输入内容"></el-input>
+          <el-input type="textarea" v-model="form.content" :autosize="{ minRows: 4, maxRows: 10 }"
+                    placeholder="请输入内容"></el-input>
         </el-form-item>
         <el-form-item label="类别" prop="classify_id">
           <el-select size="small" v-model="form.classify_id" placeholder="请选择类别">
@@ -49,249 +50,257 @@
     </el-dialog>
 
     <el-dialog title="类别管理" :visible.sync="dialogVisibleClassify" width="40%">
-        <el-button @click="addClassifyFunc" size="mini" class="el-icon-plus"></el-button>
-        <el-table :data="classifyList" style="width: 100%">
-            <el-table-column prop="name" label="类别名称" width="180"></el-table-column>
-            <el-table-column prop="id" label="操作" width="200">
-                <template slot-scope="scope">
-                    <el-button @click="editClassifyFunc(scope.row)" size="mini" class="el-icon-edit"></el-button>
-                    <el-popconfirm title="确定删除吗？" icon="el-icon-info" @onConfirm="deleteClassifyFunc(scope.row)">
-                        <el-button size="mini" class="el-icon-delete" slot="reference"></el-button>
-                    </el-popconfirm>
-                    <el-button @click="addClassifyFunc(scope.row)" size="mini" class="el-icon-plus" v-if="scope.row.pid == 0"></el-button>
-                </template>
-            </el-table-column>
-        </el-table>
+      <el-button @click="addClassifyFunc" size="mini" class="el-icon-plus"></el-button>
+      <el-table :data="classifyList" style="width: 100%">
+        <el-table-column prop="name" label="类别名称" width="180"></el-table-column>
+        <el-table-column prop="id" label="操作" width="200">
+          <template slot-scope="scope">
+            <el-button @click="editClassifyFunc(scope.row)" size="mini" class="el-icon-edit"></el-button>
+            <el-popconfirm title="确定删除吗？" icon="el-icon-info" @onConfirm="deleteClassifyFunc(scope.row)">
+              <el-button size="mini" class="el-icon-delete" slot="reference"></el-button>
+            </el-popconfirm>
+            <el-button @click="addClassifyFunc(scope.row)" size="mini" class="el-icon-plus"
+                       v-if="scope.row.pid == 0"></el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </el-dialog>
   </div>
 </template>
-  
+
 <script>
 export default {
-  data() {
+  data () {
     return {
       list: [],
       itemTotal: 0,
       pageIndex: 1,
       pageSize: 10,
       dialogVisible: false,
-      dialogTitle: "",
+      dialogTitle: '',
       classifyList: [],
       form: {
-        id: "",
-        title: "",
-        content: "",
-        classify_id: "",
+        id: '',
+        title: '',
+        content: '',
+        classify_id: ''
       },
-      formMethod: "",
+      formMethod: '',
       rules: {
-        title: [{ required: true, message: "请输入标题", trigger: "blur" }],
-        content: [{ required: true, message: "请输入内容", trigger: "blur" }],
-        classify_id: [{ required: true, message: "请输选择类别", trigger: "change" }],
+        title: [{required: true, message: '请输入标题', trigger: 'blur'}],
+        content: [{required: true, message: '请输入内容', trigger: 'blur'}],
+        classify_id: [{required: true, message: '请输选择类别', trigger: 'change'}]
       },
-      dialogVisibleClassify: false,
+      dialogVisibleClassify: false
 
-    };
+    }
   },
-  created() {
-    this.getList();
-    this.getClassifyList();
+  created () {
+    this.getList()
+    this.getClassifyList()
   },
   methods: {
     addFunc: function () {
-        this.dialogTitle = "添加备忘录";
-        this.form.id = "";
-        this.form.title = "";
-        this.form.content = "";
-        this.form.classify_id = "";
-        this.formMethod = "post";
-        this.dialogVisible = true;
+      this.dialogTitle = '添加备忘录'
+      this.form.id = ''
+      this.form.title = ''
+      this.form.content = ''
+      this.form.classify_id = ''
+      this.formMethod = 'post'
+      this.dialogVisible = true
     },
 
     editFunc: function (row) {
-        this.dialogTitle = "编辑备忘录"
-        this.form.id = row.id;
-        this.form.title = row.title;
-        this.form.content = row.content;
-        this.form.classify_id = row.classify_id; 
-        this.formMethod = "put";
-        this.dialogVisible = true;
+      this.dialogTitle = '编辑备忘录'
+      this.form.id = row.id
+      this.form.title = row.title
+      this.form.content = row.content
+      this.form.classify_id = row.classify_id
+      this.formMethod = 'put'
+      this.dialogVisible = true
     },
 
     deleteFunc: function (row) {
-        this.$confirm('此次删除操作, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            this.$axios({
-            url: this.$apiDomain + "/v1/memo",
-            method: "delete",
-            headers: { token: this.$uc.token },
-            data: { id: row.id},
+      this.$confirm('此次删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$axios({
+          url: this.$apiDomain + '/v1/memo',
+          method: 'delete',
+          headers: {token: this.$uc.token},
+          data: {id: row.id}
+        })
+          .then((res) => {
+            if (res.data.code === 0) {
+              this.$message(res.data.msg)
+              this.getList()
+            } else {
+              this.$message(res.data.msg)
+            }
           })
-            .then((res) => {
-              if (res.data.code == 0) {
-                this.$message(res.data.msg);
-                this.getList();
-              } else {
-                this.$message(res.data.msg);
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-          }).catch(() => { console.log("cancel") });
+          .catch((err) => {
+            console.log(err)
+          })
+      }).catch(() => {
+        console.log('cancel')
+      })
     },
 
     submitFn: function () {
-      this.$refs["form"].validate((valid) => {
+      this.$refs['form'].validate((valid) => {
         if (valid) {
           this.$axios({
-            url: this.$apiDomain + "/v1/memo",
-            method: "" + this.formMethod,
-            headers: { token: this.$uc.token },
-            data: this.form,
+            url: this.$apiDomain + '/v1/memo',
+            method: '' + this.formMethod,
+            headers: {token: this.$uc.token},
+            data: this.form
           })
             .then((res) => {
-              if (res.data.code == 0) {
-                this.$message(res.data.msg);
-                this.getList();
-                this.dialogVisible = false;
+              // eslint-disable-next-line eqeqeq
+              if (res.data.code === 0) {
+                this.$message(res.data.msg)
+                this.getList()
+                this.dialogVisible = false
               } else {
-                this.$message(res.data.msg);
+                this.$message(res.data.msg)
               }
             })
             .catch((err) => {
-              console.log(err);
-            });
+              console.log(err)
+            })
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
 
     currentChange: function (pageIndex) {
-      this.pageIndex = pageIndex;
-      this.getList();
+      this.pageIndex = pageIndex
+      this.getList()
     },
 
-    getList() {
+    getList () {
       this.$axios({
-        url: this.$apiDomain + "/v1/memo",
-        method: "get",
-        headers: { token: this.$uc.token },
+        url: this.$apiDomain + '/v1/memo',
+        method: 'get',
+        headers: {token: this.$uc.token},
         params: {
           pageIndex: this.pageIndex,
-          pageSize: this.pageSize,
-        },
+          pageSize: this.pageSize
+        }
       })
         .then((res) => {
-          if (res.data.code == 0) {
-            let i = 1;
+          if (res.data.code === 0) {
+            let i = 1
             this.list = res.data.result.list.map((v) => {
-              v.key = i++;
-              v.create_time = this.$util.formatUnix(v.create_time);
-              v.update_time = this.$util.formatUnix(v.update_time);
-              return v;
-            });
-            this.itemTotal = res.data.result.page.itemTotal;
+              v.key = i++
+              v.create_time = this.$util.formatUnix(v.create_time)
+              v.update_time = this.$util.formatUnix(v.update_time)
+              return v
+            })
+            this.itemTotal = res.data.result.page.itemTotal
           }
         })
         .catch((err) => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
 
-    getClassifyList() {
-        this.$axios({
-        url: this.$apiDomain + "/v1/memo/classify",
-        method: "get",
-        headers: { token: this.$uc.token },
-        params: {},
+    getClassifyList () {
+      this.$axios({
+        url: this.$apiDomain + '/v1/memo/classify',
+        method: 'get',
+        headers: {token: this.$uc.token},
+        params: {}
       })
         .then((res) => {
-          if (res.data.code == 0) {
+          if (res.data.code === 0) {
             this.classifyList = res.data.result.map(v => {
-              v.name = (v.pid > 0) ? "|— " + v.name : v.name
+              v.name = (v.pid > 0) ? '|— ' + v.name : v.name
               return v
             })
           }
         })
         .catch((err) => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
 
-    classifyManage() {
-        this.dialogVisibleClassify = true;
-
+    classifyManage () {
+      this.dialogVisibleClassify = true
     },
 
-    addClassifyFunc: function(row){
-        var pid = (row.id == undefined) ? 0 : row.id;
-        this.$prompt('请输入名称', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          inputValue: "",
-        }).then(({ value }) => {
-           this.submitClassify(value, "", pid, "post")
-        }).catch(() => { console.log("取消添加") });
+    addClassifyFunc: function (row) {
+      var pid = (row.id === undefined) ? 0 : row.id
+      this.$prompt('请输入名称', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputValue: ''
+      }).then(({value}) => {
+        this.submitClassify(value, '', pid, 'post')
+      }).catch(() => {
+        console.log('取消添加')
+      })
     },
 
-    editClassifyFunc: function(row){
-        this.$prompt('请输入名称', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          inputValue: "" + row.name,
-        }).then(({ value }) => {
-           this.submitClassify(value, row.id, "", "put")
-        }).catch(() => { console.log("取消编辑") });
+    editClassifyFunc: function (row) {
+      this.$prompt('请输入名称', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputValue: '' + row.name
+      }).then(({value}) => {
+        this.submitClassify(value, row.id, '', 'put')
+      }).catch(() => {
+        console.log('取消编辑')
+      })
     },
 
-    submitClassify(value,id,pid,formMethod){
-        this.$axios({
-            url: this.$apiDomain + "/v1/memo/classify",
-            method: "" + formMethod,
-            headers: { token: this.$uc.token },
-            data: {
-                name: value,
-                id: id,
-                pid: pid,
-            },
-          })
-            .then((res) => {
-              if (res.data.code == 0) {
-                this.getClassifyList()
-              } else {
-                this.$message(res.data.msg);
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-        });
+    submitClassify (value, id, pid, formMethod) {
+      this.$axios({
+        url: this.$apiDomain + '/v1/memo/classify',
+        method: '' + formMethod,
+        headers: {token: this.$uc.token},
+        data: {
+          name: value,
+          id: id,
+          pid: pid
+        }
+      })
+        .then((res) => {
+          // eslint-disable-next-line eqeqeq
+          if (res.data.code === 0) {
+            this.getClassifyList()
+          } else {
+            this.$message(res.data.msg)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
 
-    deleteClassifyFunc: function(row){
-        this.$axios({
-            url: this.$apiDomain + "/v1/memo/classify",
-            method: "delete",
-            headers: { token: this.$uc.token },
-            data: { id: row.id},
-          })
-            .then((res) => {
-              if (res.data.code == 0) {
-                this.getClassifyList();
-              } else {
-                this.$message(res.data.msg);
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-        });
-    },
+    deleteClassifyFunc: function (row) {
+      this.$axios({
+        url: this.$apiDomain + '/v1/memo/classify',
+        method: 'delete',
+        headers: {token: this.$uc.token},
+        data: {id: row.id}
+      })
+        .then((res) => {
+          if (res.data.code === 0) {
+            this.getClassifyList()
+          } else {
+            this.$message(res.data.msg)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
 
-  },
-};
+  }
+}
 </script>

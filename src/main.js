@@ -11,20 +11,20 @@ import AuthController from './js/auth.js'
 
 import axios from 'axios'
 
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-import './assets/style.css';
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import './assets/style.css'
 
 Vue.config.productionTip = false
 
-const uc = new AuthController();
+const uc = new AuthController()
 
-Vue.use(ElementUI);
+Vue.use(ElementUI)
 
-Vue.prototype.$axios = axios;
-Vue.prototype.$apiDomain = conf.apiDomain;
-Vue.prototype.$uc = uc;
-Vue.prototype.$util = util;
+Vue.prototype.$axios = axios
+Vue.prototype.$apiDomain = conf.apiDomain
+Vue.prototype.$uc = uc
+Vue.prototype.$util = util
 
 /* eslint-disable no-new */
 new Vue({
