@@ -1,39 +1,54 @@
-html,body{
-    margin: 0;padding: 0;
+html, body {
+  margin: 0;
+  padding: 0;
 }
-.el-header{
-    height: 40px !important;
-    background-color: #2b303b;
-    /* background-color: #ffffff; */
-    line-height: 40px;
-    color: #ffffff;
+
+.el-header {
+  height: 40px !important;
+  background-color: #2b303b;
+  /* background-color: #ffffff; */
+  line-height: 40px;
+  color: #ffffff;
 }
-.el-header .r-header{
-    text-align: right;
+
+.el-header .r-header {
+  text-align: right;
 }
-.el-header .nav{
-    cursor: pointer;
+
+.el-header .nav {
+  cursor: pointer;
 }
-.el-header .r-header .logout{
-    cursor: pointer;
+
+.el-header .r-header .logout {
+  cursor: pointer;
 }
-.el-header .r-header .logout:hover{
-    color: #ff0000;
+
+.el-header .r-header .logout:hover {
+  color: #ff0000;
 }
-.drawer-main{
-    background-color: #f5f8fa;
+
+.drawer-main {
+  background-color: #f5f8fa;
 }
-.drawer-main .drawer-main-box{
-    padding: 20px;
+
+.drawer-main .drawer-main-box {
+  padding: 20px;
 }
-.drawer-main .drawer-main-box-close{
-    float: right;
-    cursor: pointer;
+
+.drawer-main .drawer-main-box-close {
+  float: right;
+  cursor: pointer;
 }
-.main-box{
-    background-color: #ffffff;
+
+.main-box {
+  background-color: #ffffff;
 }
-.sub-btn{
-    cursor: pointer;
-    color: #0000ff;
+
+.sub-btn {
+  cursor: pointer;
+  color: #0000ff;
+}
+
+.padding10 {
+  padding: 10px 0;
 }

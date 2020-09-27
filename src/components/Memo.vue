@@ -1,7 +1,13 @@
 <template>
   <div class>
+    <div class="padding10">
+      <el-input size="small" v-model="search.title" placeholder="请输入标题" clearable style="width: 200px;"></el-input>
+      <el-select size="small" v-model="search.classify_id" placeholder="请选择类别" clearable>
+        <el-option v-for="(item,key) in classifyList" :key="key" :label="item.name" :value="item.id"></el-option>
+      </el-select>
+      <el-button type="primary" size="small" @click="getList">搜搜</el-button>
+    </div>
     <el-button size="mini" @click="addFunc" class="el-icon-plus" round></el-button>
-
     <el-table :data="list" style="width: 100%">
       <el-table-column prop="key" label="序号" width="180"></el-table-column>
       <el-table-column prop="title" label="标题" width="180"></el-table-column>
@@ -72,6 +78,10 @@
 export default {
   data () {
     return {
+      search: {
+        title: '',
+        classify_id: ''
+      },
       list: [],
       itemTotal: 0,
       pageIndex: 1,
@@ -92,7 +102,6 @@ export default {
         classify_id: [{required: true, message: '请输选择类别', trigger: 'change'}]
       },
       dialogVisibleClassify: false
-
     }
   },
   created () {
@@ -189,7 +198,9 @@ export default {
         headers: {token: this.$uc.token},
         params: {
           pageIndex: this.pageIndex,
-          pageSize: this.pageSize
+          pageSize: this.pageSize,
+          title: this.search.title,
+          classify_id: this.search.classify_id
         }
       })
         .then((res) => {
@@ -197,6 +208,7 @@ export default {
             let i = 1
             this.list = res.data.result.list.map((v) => {
               v.key = i++
+              v.memo_classify.name = v.memo_classify.pid_memo_classify.id ? v.memo_classify.name + ' (' + v.memo_classify.pid_memo_classify.name + ')' : v.memo_classify.name
               v.create_time = this.$util.formatUnix(v.create_time)
               v.update_time = this.$util.formatUnix(v.update_time)
               return v
