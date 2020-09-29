@@ -5,17 +5,17 @@
       <el-select size="small" v-model="search.classify_id" placeholder="请选择类别" clearable>
         <el-option v-for="(item,key) in classifyList" :key="key" :label="item.name" :value="item.id"></el-option>
       </el-select>
-      <el-button type="primary" size="small" @click="getList">搜搜</el-button>
+      <el-button type="primary" size="small" @click="getList" class="purple-btn">搜搜</el-button>
     </div>
     <el-button size="mini" @click="addFunc" class="el-icon-plus" round></el-button>
-    <el-table :data="list" style="width: 100%">
-      <el-table-column prop="key" label="序号" width="180"></el-table-column>
-      <el-table-column prop="title" label="标题" width="180"></el-table-column>
-      <el-table-column prop="content" label="内容" width="180"></el-table-column>
-      <el-table-column prop="create_time" label="创建时间" width="180"></el-table-column>
-      <el-table-column prop="memo_classify.name" label="类别" width="180"></el-table-column>
-      <el-table-column prop="update_time" label="最近修改时间" width="200"></el-table-column>
-      <el-table-column prop="id" label="操作" width="200">
+    <el-table :data="list">
+      <el-table-column prop="key" label="序号"></el-table-column>
+      <el-table-column prop="title" label="标题"></el-table-column>
+      <el-table-column prop="content" label="内容"></el-table-column>
+      <el-table-column prop="create_time" label="创建时间"></el-table-column>
+      <el-table-column prop="memo_classify.name" label="类别"></el-table-column>
+      <el-table-column prop="update_time" label="最近修改时间"></el-table-column>
+      <el-table-column prop="id" label="操作">
         <template slot-scope="scope">
           <el-button @click="editFunc(scope.row)" size="mini" class="el-icon-edit"></el-button>
           <el-button @click="deleteFunc(scope.row)" size="mini" class="el-icon-delete"></el-button>
@@ -25,10 +25,11 @@
 
     <!--  分页  -->
     <el-pagination
-      background
-      layout="total, prev, pager, next"
+      :page-sizes="[10, 20, 50]"
+      layout="total, sizes, prev, pager, next, jumper"
       :total="itemTotal"
       :page-size="pageSize"
+      @size-change="sizeChange"
       @current-change="currentChange"
     ></el-pagination>
 
@@ -66,7 +67,7 @@
               <el-button size="mini" class="el-icon-delete" slot="reference"></el-button>
             </el-popconfirm>
             <el-button @click="addClassifyFunc(scope.row)" size="mini" class="el-icon-plus"
-                       v-if="scope.row.pid == 0"></el-button>
+                       v-if="scope.row.pid === 0"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -188,6 +189,11 @@ export default {
 
     currentChange: function (pageIndex) {
       this.pageIndex = pageIndex
+      this.getList()
+    },
+
+    sizeChange: function (pageSize) {
+      this.pageSize = pageSize
       this.getList()
     },
 

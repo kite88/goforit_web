@@ -1,0 +1,39 @@
+[
+  {
+    "name": "首页",
+    "path": "/home",
+    "children": []
+  },
+  {
+    "name": "备忘录",
+    "path": "/memo",
+    "children": []
+  },
+  {
+    "name": "账户管理",
+    "path": "/account",
+    "children": [
+      {
+        "name": "密码修改",
+        "path": "/account/modifyPassword",
+        "children": []
+      },
+      {
+        "name": "基本信息",
+        "path": "/account/baseInfo",
+        "children": [
+          {
+            "name": "个人资料",
+            "path": "/account/PersonalInfo",
+            "children": []
+          },
+          {
+            "name": "账户安全",
+            "path": "/account/AccountSecurity",
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+]

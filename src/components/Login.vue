@@ -15,7 +15,7 @@
       <el-input v-model="form.password" size="small" placeholder="请输入密码" show-password clearable></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onSubmit()" size="small">进入系统</el-button>
+      <el-button type="primary" @click="onSubmit()" size="small" class="purple-btn">进入系统</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -64,7 +64,7 @@ export default {
                 })
                 this.$uc.save(res.data.result)
                 this.$router.push({
-                  path: '/'
+                  path: '/home'
                 })
               } else {
                 this.$message(res.data.msg)

@@ -13,10 +13,23 @@ export default new Router({
       path: '/',
       name: 'Main',
       component: Pages.Main,
+      redirect: '/home',
       children: [
         {
+          path: '/home', name: 'Home', component: Pages.Home
+        },
+        {
           path: '/memo', name: 'Memo', component: Pages.Memo
-        }
+        },
+        {
+          path: '/account/modifyPassword', name: 'ModifyPassword', component: Pages.ModifyPassword
+        },
+        {
+          path: '/account/PersonalInfo', name: 'PersonalInfo', component: Pages.PersonalInfo
+        },
+        {
+          path: '/account/AccountSecurity', name: 'PersonalInfo', component: Pages.AccountSecurity
+        },
       ]
     }
   ]

@@ -4,11 +4,8 @@ html, body {
 }
 
 .el-header {
-  height: 40px !important;
-  background-color: #2b303b;
-  /* background-color: #ffffff; */
-  line-height: 40px;
-  color: #ffffff;
+  height: 60px !important;
+  line-height: 60px;
 }
 
 .el-header .r-header {
@@ -51,4 +48,10 @@ html, body {
 
 .padding10 {
   padding: 10px 0;
+}
+
+.purple-btn {
+  background-color: #6c3989;
+  border-color: #6c3989;
+  color: #f5f8fa;
 }
